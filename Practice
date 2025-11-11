@@ -1,0 +1,37 @@
+import csv
+
+import csv
+from collections import defaultdict
+
+class Store:
+    def __init__(self):
+        self.items = 0
+        self.rev = 0.0
+
+    def addItems(self, items):
+        self.items += items
+    
+    def addRev(self, rev):
+        self.rev += rev
+
+    def __str__(self):
+        return f"items: {self.items}, total revenue: {self.rev:.2f}"
+    
+# data = {'Store1': Store(), 'Store2': Store(), 'Store3': Store()}
+data = defaultdict(Store)
+
+with open("store_sales.csv") as csvfile:
+    csv_reader = csv.DictReader(csvfile)
+
+    for row in csv_reader:
+        print(row)
+        this_store_id = row['store_id']
+        this_store = data[this_store_id]
+        this_store_items = int(row['items_sold'])
+        this_store_rev = float(row['revenue'])
+        this_store.addItems(this_store_items)
+        this_store.addRev(this_store_rev)
+
+for i, k in enumerate(data):
+    print(k, data[k])
+
